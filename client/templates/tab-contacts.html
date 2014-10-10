@@ -1,0 +1,26 @@
+<ion-view title="Contacts">
+    <ion-content has-header="true" padding="true">
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <div>
+            <div class="list">
+                <div ng-repeat="contact in contacts">
+                    <a ui-sref="tabs.contact-detail({contactId:contact.id})">
+                        <div class="item">
+                        {{contact.firstname}} {{contact.lastname}}
+                        <span class="item-note">
+                            {{contact.company}}
+                        </span>
+                        <br />
+                        <span class="positive" style="font-size:0.8em">{{contact.email}}</span>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
