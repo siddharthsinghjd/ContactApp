@@ -1,7 +1,7 @@
 DEBUG = true;
 
 exports.db_client = 'pg';
-exports.db_url = process.env.DATABASE_URL + "?ssl=true";
+exports.db_url = process.env.DATABASE_URL; // + "?ssl=true";
 exports.DEBUG = DEBUG;
 exports.SQL_DEBUG = true;
 

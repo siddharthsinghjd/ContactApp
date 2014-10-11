@@ -8,36 +8,144 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ionic/js/angular/angular-resource.js"></script>
     
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+    <script src="app.js"></script>
 
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
+    <style>
+      a {
+        display:block;
+      }
+      .item {
+        text-decoration: none;
+      }
+      span.email {
+        font-size:0.8em;
+      }
+    </style>
   </head>
   <body ng-app="mcontacts">
-    <!-- 
-      The nav bar that will be updated as we navigate between views.
-    -->
+
+    <!-- ** NAV BAR ** -->
+
     <ion-nav-bar class="bar-royal nav-title-slide-ios7">
       <ion-nav-back-button class="button-icon ion-arrow-left-c">
       </ion-nav-back-button>
     </ion-nav-bar>
 
-    <!-- 
-      The views will be rendered in the <ion-nav-view> directive below
-      Templates are in the /templates folder (but you could also
-      have templates inline in this html file if you'd like).
+    <!-- ** 
+         MAIN NAV VIEW 
+         ** 
     -->
+
     <ion-nav-view animation="slide-left-right"></ion-nav-view>
+
+    <script type="text/ng-template" id="tabs-container.html">
+      <ion-tabs class="tabs-icon-top">
+          <ion-tab title="Contacts" icon="icon ion-person-stalker" href="#/tab/contacts">
+              <ion-nav-view name="tab-contacts"></ion-nav-view>
+          </ion-tab>
+      </ion-tabs>
+    </script>
+
+
+    <!-- ** 
+         TEMPLATE - CONTACTS LIST 
+         ** 
+    -->
+
+    <script type="text/ng-template" id="tab-contacts.html">
+      <ion-view title="Salesforce Contacts">
+        <ion-content has-header="true" padding="true">
+            <ion-refresher
+                    pulling-text="Pull to refresh..."
+                    on-refresh="doRefresh()">
+            </ion-refresher>
+
+            <div>
+                <div class="list">
+                    <div ng-repeat="contact in contacts">
+                        <a ui-sref="tabs.contact-detail({contactId:contact.id})">
+                            <div class="item">
+                            {{contact.firstname}} {{contact.lastname}}
+                            <span class="item-note">
+                                {{contact.company}}
+                            </span>
+                            <br />
+                            <span class="positive email" >{{contact.email}}</span>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- ** 
+         TEMPLATE - CONTACT DETAIL
+         ** 
+    -->
+
+    <script type="text/ng-template" id="contact-detail.html">
+      <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="edit()">Edit</button>
+      </ion-nav-buttons>
+
+      <ion-view title="Contact" class="card-bg">
+        <ion-content has-header="true" padding="true">
+          <div class="card">
+            <h2>{{contact.firstname}} {{contact.lastname}}</h2>
+            <a href="mailto:{{contact.email}}">{{contact.email}}</a>
+            <a href="telpromot:{{contact.phone}}">{{contact.phone}}</a>
+          </div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <!-- ** 
+         TEMPLATE - CONTACT EDIT
+         ** 
+    -->
+    <script type="text/ng-template" id="contact-edit.html">
+      <ion-modal-view style="top:10%; bottom:10%">
+        <ion-header-bar class="bar bar-header bar-stable">
+            <h1 class="title">Edit Contact</h1>
+            <button class="button button-clear button-primary ion-close" ng-click="modal.hide()"></button>
+        </ion-header-bar>
+
+        <ion-content>
+          <div class="list list-inset">
+
+              <label class="item item-input">
+                  <input type="text" placeholder="First Name" ng-model="contact.firstname">
+              </label>
+
+              <label class="item item-input">
+                  <input type="text" placeholder="Last Name" ng-model="contact.lastname">
+              </label>
+
+              <label class="item item-input">
+                  <input type="text" placeholder="Email" ng-model="contact.email">
+              </label>
+
+              <label class="item item-input">
+                  <input type="text" placeholder="Phone" ng-model="contact.phone">
+              </label>
+
+              <button class="button button-block button-stable" ng-click="save()">
+                  Save
+              </button>
+
+          </div>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+    
+
   </body>
 </html>

@@ -44,7 +44,6 @@ app.use(function(err, req, res, next) {
 var contactTable = 'salesforce2.contact';
 
 app.get('/resource/contacts', function(req, res) {
-  return res.json([{id: 1, firstname:'scott',lastname:'persinger'}]);
   knex(contactTable).select().where(knex.raw('email is not null')).orderBy('lastname').limit(50).then(function(rows) {
     res.json(rows);
   }).catch(function(err) {
@@ -54,7 +53,6 @@ app.get('/resource/contacts', function(req, res) {
 });
 
 app.get('/resource/contacts/:contactId', function(req, res) {
-  return res.json({firstname:'scott',lastname:'persinger'});
   knex(contactTable).select().where({id: req.params.contactId}).then(function(rows) {
     if (rows.length > 0) {
       res.json(rows[0]);
@@ -64,8 +62,15 @@ app.get('/resource/contacts/:contactId', function(req, res) {
   });
 });
 
-/********************* SERVER STARTT *****************************/
+app.post('/resource/contacts', function(req, res) {
+  knex(contactTable).update(req.body).then(function() {
+    res.send('OK');
+  }).catch(function(err) {
+    res.status(500).send(err);
+  });
+});
 
+/********************* SERVER STARTT *****************************/
 
 app.set('port', process.env.PORT || 5000);
 
