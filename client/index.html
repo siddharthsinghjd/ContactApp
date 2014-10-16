@@ -68,7 +68,7 @@
             <div>
                 <div class="list">
                     <div ng-repeat="contact in contacts">
-                        <a ui-sref="tabs.contact-detail({contactId:contact.id})">
+                        <a ui-sref="tabs.contact-detail({contactId:contact.id})" style="text-decoration:none">
                             <div class="item">
                             {{contact.firstname}} {{contact.lastname}}
                             <span class="item-note">

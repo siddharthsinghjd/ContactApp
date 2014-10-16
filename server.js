@@ -63,7 +63,7 @@ app.get('/resource/contacts/:contactId', function(req, res) {
 });
 
 app.post('/resource/contacts', function(req, res) {
-  knex(contactTable).update(req.body).then(function() {
+  knex(contactTable).where({id: req.body.id}).update(req.body).then(function() {
     res.send('OK');
   }).catch(function(err) {
     res.status(500).send(err);
