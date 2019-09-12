@@ -41,7 +41,7 @@ app.use(function(err, req, res, next) {
 /********************* ROUTES *****************************/
 // Simple hack to only allow admin to load the admin page.
 
-var contactTable = 'salesforce2.contact';
+var contactTable = 'salesforceapp';
 
 app.get('/resource/contacts', function(req, res) {
   knex(contactTable).select().where(knex.raw('email is not null')).orderBy('lastname').limit(50).then(function(rows) {
